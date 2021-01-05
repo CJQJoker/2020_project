@@ -7,6 +7,7 @@ xs = xt.add_sheet('data')
 
 page=['bkstz.htm','/bkstz/8.htm','/bkstz/7.htm','/bkstz/6.htm','/bkstz/5.htm','/bkstz/4.htm','/bkstz/3.htm','/bkstz/2.htm','/bkstz/1.htm']
 list_pages=[]
+list_title=[]
 s = 'http://ssdut.dlut.edu.cn'
 url = "http://ssdut.dlut.edu.cn/index/"
 for p in page:
@@ -16,6 +17,7 @@ for p in page:
     doc = bs4.BeautifulSoup(res.text, 'html.parser')
     listp = doc.find_all('a',attrs={'class':"c56628"})
     for i in listp:
+        list_title.append(i['title'])
         if '/' in p:
             list_pages.append(s+i['href'][5:])
         else:
@@ -28,7 +30,7 @@ for lp in list_pages:
     doc = bs4.BeautifulSoup(res.text, 'html.parser')
 
     # 通知标题
-    notice_title = doc.h1.text
+    notice_title = list_title[n]
 
     getChicks = str(doc.select('.mt_10.mb_10.f13.lh_15per script')[0]).replace(' ', '').split(')')[0].split(',')
     resulturl = 'http://ssdut.dlut.edu.cn/system/resource/code/news/click/dynclicks.jsp?clickid={}&owner={}&clicktype=wbnews'.format(getChicks[2], getChicks[1])
@@ -58,6 +60,6 @@ for lp in list_pages:
     t.sleep(5)
 
 
-xt.save('G:/data.xls')
+xt.save('G:/data_2.xls')
 
 
