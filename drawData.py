@@ -19,17 +19,22 @@ y = []
 for i in data.loc[:,["chicknum"]].values.tolist():
     y.append(int(i[0]))
 
+z = []
+for i in data.loc[:,["title"]].values.tolist():
+    z.append(i[0])
+
 (
-    Scatter(init_opts=opts.InitOpts(width="1600px", height="1000px"))
+    Scatter(init_opts=opts.InitOpts(width="1600px", height="700px"))
     .add_xaxis(xaxis_data=x)
     .add_yaxis(
-        series_name="",
-        y_axis=y,
-        symbol_size=20,
-        label_opts=opts.LabelOpts(is_show=False),
+        series_name="点击数",
+        y_axis= [list(i) for i in zip(y, z)],
+        symbol_size=15,
+        label_opts=opts.LabelOpts(is_show=True),
     )
     .set_series_opts()
     .set_global_opts(
+        title_opts=opts.TitleOpts(title="学院官网通知点击数"),
         xaxis_opts=opts.AxisOpts(
             type_="time", splitline_opts=opts.SplitLineOpts(is_show=True)
         ),
@@ -38,7 +43,16 @@ for i in data.loc[:,["chicknum"]].values.tolist():
             axistick_opts=opts.AxisTickOpts(is_show=True),
             splitline_opts=opts.SplitLineOpts(is_show=True),
         ),
-        tooltip_opts=opts.TooltipOpts(is_show=False),
+
+        tooltip_opts=opts.TooltipOpts(
+            formatter=JsCode(
+                "function (params) {return '标题 : ' + params.value[2];}"
+            )
+        ),
+        visualmap_opts=opts.VisualMapOpts(
+            type_="color", max_=5000, min_=0, dimension=1
+        ),
+
     )
-    .render("basic_scatter_chart.html")
+    .render("showChickNum.html")
 )
