@@ -7,4 +7,5 @@
 # 项目概述
 本项目基于python 3.7 版本
 
-依赖包:requests, bs4, xlwt, pandas, pyecharts
+依赖包:requests, bs4, xlwt, pandas, pyecharts, xlrd, wordcloud, jieba, numpy, Image, matplotlib.pyplot
+
